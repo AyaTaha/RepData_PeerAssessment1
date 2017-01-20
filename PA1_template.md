@@ -15,15 +15,14 @@ activity <- transform(activity , date= as.Date(date))
 
 ### Assignment
 
-* What is mean total number of steps taken per day?
+### What is mean total number of steps taken per day?
 
 
 ```r
 # Load the library dplyr
 library(dplyr)
 #Calculating the total steps for each day
-q1<- activity %>% filter(!is.na(steps))%>%
-        group_by(date) %>% summarize(total_steps= sum(steps))
+q1<- activity %>% group_by(date) %>% summarize(total_steps= sum(steps))
 
 # Plotting a Histogram for the total steps each ady
 hist(q1$total_steps , col="red" ,
@@ -36,21 +35,15 @@ hist(q1$total_steps , col="red" ,
 
 
 ```r
-q1.3 <- activity %>% filter(!is.na(steps)) %>%
-        group_by(date)%>% summarize(mean= mean(steps) , median= median(steps))
-
-par(mfrow=c(1,2))
-
-with(q1.3 , plot(date , mean , xlab="Date" , ylab="mean of Steps" , main="Average total steps by Date" , type="l" , col="red"))
-
-with(q1.3 , plot(date , median , xlab="Date" , ylab="Median of Steps" , main="Median total steps by Date" , type="l" , col="red"))
+Steps_mean <- mean(q1$total_steps , na.rm = T)
+Steps_median <- median(q1$total_steps , na.rm = T)
 ```
 
-![plot of chunk Q1.3](figure/Q1.3-1.png)
-  
+Steps Mean = 1.0766189 &times; 10<sup>4</sup>  
+Steps Median = 10765  
     
 ======================================================================================      
-* What is the average daily activity pattern?
+### What is the average daily activity pattern?
 
 
 ```r
@@ -72,7 +65,7 @@ As we could see from the chart , that the **835** interval has the maximum avera
 
 ======================================================================================  
   
-* Imputing missing values
+### Imputing missing values
   
 
 ```r
@@ -111,22 +104,20 @@ hist(sum_steps$ttl_steps , col="black", border = "white" , xlab="Total Steps" , 
   
 
 ```r
-q3.4 <- NoNA_activity %>% group_by(date)%>% summarize(mean= mean(steps) , median = median(steps))
-
-par(mfrow=c(1,2))
-
-with(q3.4 , plot(date , mean , xlab="Date" , ylab="mean of Steps" , main="Average total steps by Date" , type="l" , col="red"))
-
-with(q3.4 , plot(date , median , xlab="Date" , ylab="Median of Steps" , main="Median total steps by Date" , type="l" , col="red"))
+Steps_mean_NONA = mean(sum_steps$ttl_steps)
+Steps_median_NONA = median(sum_steps$ttl_steps)
 ```
 
-![plot of chunk Q3.4](figure/Q3.4-1.png)
+After removing NAs  
+Steps Mean = 9354.2295082  
+Steps Median = 1.0395 &times; 10<sup>4</sup>
+
   
 As we could see and compare the results with the previous charts -at the first of the document - we could see that most of the dates pulled downs to zeros which are the data imputed from NAs to Zeros  
   
 ======================================================================================      
   
-* Are there differences in activity patterns between weekdays and weekends?
+### Are there differences in activity patterns between weekdays and weekends?
 
 
 
